@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'NRFlag' target in the 'NRFlag' project
+//
+
+#ifdef __OBJC__
+  #import <Cocoa/Cocoa.h>
+#endif
