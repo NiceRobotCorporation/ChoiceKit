@@ -20,23 +20,23 @@ NSMutableDictionary* allowed = nil;
 id optionsInstance = nil;
 
 -(id) initUsingOptions:(Class)optionsClass_ {
-
+  
   if (!(self = [super init])) {
     return nil;
   }
-
+  
   program = nil;
   options = nil;
   parameters = nil;
-
+  
   if (!optionsClass_) {
     @throw [NSException exceptionWithName:@"NilArgumentException"
                                    reason:@"optionsClass_ must not be null"
                                  userInfo:nil];
   }
-
+  
   optionsClass = optionsClass_;
-
+  
   if (optionsClass) {
     // Obtain a list of all the user's command-line options.
     u_int count;
@@ -64,7 +64,7 @@ id optionsInstance = nil;
       if ('@' == type) {
         type = [attr hasPrefix:@"T@\"NSMutableArray"]?'A':'S';
       }
-
+      
       // TODO for array-style options, check for array setter _[name]
       //      and wrapper getter to return the array.
       
@@ -96,7 +96,7 @@ id optionsInstance = nil;
                   forKey:name];
     }
     free(properties);
-
+    
   }
   return self;
 }
@@ -112,7 +112,7 @@ id optionsInstance = nil;
 }  
 
 -(void) parse:(int)argc withArguments:(const char*[])argv {
-
+  
   program = [NSString stringWithUTF8String:argv[0]];
   
   // Construct an instance of the user's options for passing values
@@ -129,7 +129,7 @@ id optionsInstance = nil;
     NSString *name = nil;
     NSArray *names = nil;
     id value = [NSNumber numberWithInt:1];
-        
+    
     if ('-' == argv[argi][0]) { // option
       BOOL is_long = ('-' == argv[argi][1]);
       if (is_long) { // long
@@ -161,7 +161,7 @@ id optionsInstance = nil;
             continue;
           }
         }
-
+        
         //*
         unsigned char type = [[opt objectAtIndex:0] characterAtIndex:0];
         // If there option requires a parameter (is a string or int option),
@@ -184,12 +184,12 @@ id optionsInstance = nil;
             }
             break;
         }
-
+        
         NSString *option_mode = [opt objectAtIndex:3];
         if ([option_mode length]) {
           n = [NSString stringWithFormat:@"%@%@",n,option_mode];
         }
-
+        
         if (optionsInstance) {
           // Set the parameter.
           switch (type) {
@@ -218,7 +218,7 @@ id optionsInstance = nil;
       [parameters_ addObject:[Parameter parameter:argi withValue:arg]];
     }
   }
-
+  
   options = [NSArray arrayWithArray:options_];
   parameters = [NSArray arrayWithArray:parameters_];
 }
@@ -232,24 +232,24 @@ id optionsInstance = nil;
 }
 
 +(NRFlag*) flag:(int)argc
-              withArguments:(const char*[])argv
-               usingOptions:(Class)optionsClass {
-
+  withArguments:(const char*[])argv
+   usingOptions:(Class)optionsClass {
+  
   NRFlag *cl = [[[NRFlag alloc] initUsingOptions:optionsClass] autorelease];
   [cl parse:argc withArguments:argv];
   return cl;
 }
 
 +(NRFlag*) flag:(int)argc
-              withArguments:(const char*[])argv
-                usingOptionsName:(NSString*)name {
+  withArguments:(const char*[])argv
+usingOptionsName:(NSString*)name {
   return [NRFlag flag:argc
-                    withArguments:argv
-                     usingOptions:NSClassFromString(name)];
+        withArguments:argv
+         usingOptions:NSClassFromString(name)];
 }
 
 +(NRFlag*) flag:(int)argc
-              withArguments:(const char*[])argv {
+  withArguments:(const char*[])argv {
   return [NRFlag flag:argc withArguments:argv usingOptions:nil];
 }
 
