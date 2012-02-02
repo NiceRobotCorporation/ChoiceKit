@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:src/ex"
+      name = "ex">
+      <Group
+         location = "group:ex1"
+         name = "ex1">
+         <FileRef
+            location = "group:ex1.h">
+         </FileRef>
+         <FileRef
+            location = "group:ex1.m">
+         </FileRef>
+         <FileRef
+            location = "group:main.m">
+         </FileRef>
+      </Group>
+   </Group>
    <FileRef
-      location = "group:ChoiceKit/ChoiceKit.xcodeproj">
+      location = "group:src/test/xcode/ChoiceKitTests.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:src/main/xcode/ChoiceKit.xcodeproj">
    </FileRef>
 </Workspace>
